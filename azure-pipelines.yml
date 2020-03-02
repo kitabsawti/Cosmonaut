@@ -3,19 +3,62 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+#steps:
+#- task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
+ # displayName: 'Run Azure Cosmos DB Emulator container'
+#- script: dotnet build --configuration $(buildConfiguration)
+#  displayName: 'dotnet build $(buildConfiguration)'
+#- script: dotnet test tests\Cosmonaut.Unit
+#  displayName: 'Running unit tests'
+#- script: dotnet test tests\Cosmonaut.System
+#  displayName: 'Running integration tests'
+#  env: { 'CosmosDBEndpoint': "$(CosmosDbEmulator.Endpoint)" }
+
+name: $(BuildDefinitionName)-$(Date:yyyyMMdd)$(Rev:.r)-$(SourceBranchName)
+
+trigger:
+  branches:
+    include:
+    - develop
+
 pool:
-  vmImage: 'vs2017-win2016'
+  name: 'Hosted VS2017'
 
 variables:
   buildConfiguration: 'Release'
+  projectFile: 'src/Cosmonaut/Cosmonaut.csproj'
+  #majorVersion: '1' # Required when versioningScheme == byPrereleaseNumber
+  #minorVersion: '0' # Required when versioningScheme == byPrereleaseNumber
+  #patchVersion: '0' # Required when versioningScheme == byPrereleaseNumber
+  
+  # versioning
+  version: '2.11.3'
+  packageVersion: $(version)
+  # Alternate versioning scheme, can be useful during development when doing many iterations. Make sure to use correct initial stable version (check current value in build)
+  #betarevision: $[counter('revisioncounter', 1)] # revision for betas
+  #packageVersion: $(version)-beta$(betarevision)
 
 steps:
-#- task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
- # displayName: 'Run Azure Cosmos DB Emulator container'
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - script: dotnet test tests\Cosmonaut.Unit
   displayName: 'Running unit tests'
-#- script: dotnet test tests\Cosmonaut.System
-#  displayName: 'Running integration tests'
-#  env: { 'CosmosDBEndpoint': "$(CosmosDbEmulator.Endpoint)" }
+
+- task: DotNetCoreCLI@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: pack
+    nobuild: true # since we build in the previous step
+    packagesToPack: $(projectFile)
+    versioningScheme: byEnvVar # Options: off, byPrereleaseNumber, byEnvVar, byBuildNumber
+    versionEnvVar: packageVersion
+
+- task: DotNetCoreCLI@2
+  displayName: 'NuGet push to feed'
+  inputs:
+    command: 'push'
+    nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
+    packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg' # Required when command == push
+    publishVstsFeed: 'backend-internal' # Required when command == push && NuGetFeedType == internal
+    #allowPackageConflicts: false
+    #publishFeedCredentials: # Required when command == push && NuGetFeedType == external
