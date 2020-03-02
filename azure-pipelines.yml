@@ -16,11 +16,6 @@
 
 name: $(BuildDefinitionName)-$(Date:yyyyMMdd)$(Rev:.r)-$(SourceBranchName)
 
-trigger:
-  branches:
-    include:
-    - develop
-
 pool:
   name: 'Hosted VS2017'
 
