@@ -17,7 +17,7 @@
 name: $(BuildDefinitionName)-$(Date:yyyyMMdd)$(Rev:.r)-$(SourceBranchName)
 
 pool:
-  name: 'windows-latest'
+  name: 'Default'
 
 variables:
   buildConfiguration: 'Release'
