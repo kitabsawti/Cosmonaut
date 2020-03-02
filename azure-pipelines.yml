@@ -32,8 +32,8 @@ variables:
   #patchVersion: '0' # Required when versioningScheme == byPrereleaseNumber
   
   # versioning
-  version: '2.11.3'
-  packageVersion: $(version)
+  version: $(Nuget SemVer)
+  packageVersion: $(Nuget SemVer)
   # Alternate versioning scheme, can be useful during development when doing many iterations. Make sure to use correct initial stable version (check current value in build)
   #betarevision: $[counter('revisioncounter', 1)] # revision for betas
   #packageVersion: $(version)-beta$(betarevision)
