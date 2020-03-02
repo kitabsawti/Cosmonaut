@@ -8,6 +8,6 @@ namespace Cosmonaut.System.Models
         [CosmosPartitionKey]
         public string Id { get; set; }
 
-        public string CosmosEntityName { get; set; }
+        public string DbType { get; set; }
     }
 }

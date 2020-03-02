@@ -20,7 +20,7 @@ namespace Cosmonaut.System
     public class CosmosStoreTests : IDisposable
     {
         private readonly ICosmonautClient _cosmonautClient;
-        private readonly string _emulatorUri = Environment.GetEnvironmentVariable("CosmosDBEndpoint") ?? "https://localhost:8081";
+        private readonly string _emulatorUri = Environment.GetEnvironmentVariable("CosmosDBEndpoint") ?? "https://172.30.202.238:8081";
         private readonly string _databaseId = $"DB{nameof(CosmosStoreTests)}";
         private readonly string _collectionName = $"COL{nameof(CosmosStoreTests)}";
         private readonly string _emulatorKey =
@@ -321,12 +321,12 @@ namespace Cosmonaut.System
             dogs.Should().BeEquivalentTo(addedDogs.SuccessfulEntities.Select(x => x.Entity));
             lions.Should().BeEquivalentTo(addedLions.SuccessfulEntities.Select(x => x.Entity), config =>
             {
-                config.Excluding(x => x.CosmosEntityName);
+                config.Excluding(x => x.DbType);
                 return config;
             });
             birds.Should().BeEquivalentTo(addedBirds.SuccessfulEntities.Select(x => x.Entity), config =>
             {
-                config.Excluding(x => x.CosmosEntityName);
+                config.Excluding(x => x.DbType);
                 return config;
             });
         }

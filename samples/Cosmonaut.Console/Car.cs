@@ -10,6 +10,6 @@ namespace Cosmonaut.Console
         [CosmosPartitionKey]
         public string Name { get; set; }
 
-        public string CosmosEntityName { get; set; }
+        public string DbType { get; set; }
     }
 }

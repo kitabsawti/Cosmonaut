@@ -4,7 +4,7 @@ namespace Cosmonaut
 {
     public interface ISharedCosmosEntity
     {
-        [JsonProperty(nameof(CosmosEntityName))]
-        string CosmosEntityName { get; set; }
+        [JsonProperty(nameof(DbType))]
+        string DbType { get; set; }
     }
 }

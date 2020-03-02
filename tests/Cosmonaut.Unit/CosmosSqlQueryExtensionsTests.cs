@@ -13,7 +13,7 @@ namespace Cosmonaut.Unit
         public void SharedCollectionSqlQueryWithoutWhereClauseAddsCosmosEntityName()
         {
             // Arrange
-            var expectedQuery = $"select * from c where c.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}'";
+            var expectedQuery = $"select * from c where c.{nameof(ISharedCosmosEntity.DbType)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}'";
             
             // Act
             var result = "select * from c".EnsureQueryIsCollectionSharingFriendly<DummySharedCollection>();
@@ -39,7 +39,7 @@ namespace Cosmonaut.Unit
         public void SharedCollectionSqlQueryWithWhereClauseAddsCosmosEntityName()
         {
             // Arrange
-            var expectedQuery = $"select * from c where c.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
+            var expectedQuery = $"select * from c where c.{nameof(ISharedCosmosEntity.DbType)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
 
             // Act
             var result = "select * from c where c.id = '1'".EnsureQueryIsCollectionSharingFriendly<DummySharedCollection>();
@@ -65,7 +65,7 @@ namespace Cosmonaut.Unit
         public void SharedCollectionSqlQueryWithWhereClauseAndAsAddsCosmosEntityName()
         {
             // Arrange
-            var expectedQuery = $"select * from root as c where c.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
+            var expectedQuery = $"select * from root as c where c.{nameof(ISharedCosmosEntity.DbType)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
 
             // Act
             var result = "select * from root as c where c.id = '1'".EnsureQueryIsCollectionSharingFriendly<DummySharedCollection>();
@@ -78,7 +78,7 @@ namespace Cosmonaut.Unit
         public void SharedCollectionSqlQueryWithWhereClauseWithoutAsAddsCosmosEntityName()
         {
             // Arrange
-            var expectedQuery = $"select * from root c where c.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
+            var expectedQuery = $"select * from root c where c.{nameof(ISharedCosmosEntity.DbType)} = '{typeof(DummySharedCollection).GetSharedCollectionEntityName()}' and c.id = '1'";
 
             // Act
             var result = "select * from root c where c.id = '1'".EnsureQueryIsCollectionSharingFriendly<DummySharedCollection>();
@@ -159,7 +159,7 @@ namespace Cosmonaut.Unit
         public void SharedCollectionSqlQueryWithUpperCaseOrderClauseWithoutAsAddsCosmosEntityName()
         {
             // Arrange
-            var expectedQuery = "select * from c where c.CosmosEntityName = 'dummies' order by c.id";
+            var expectedQuery = "select * from c where c.DbType = 'dummies' order by c.id";
 
             // Act
             var result = "select * from c ORDER BY c.id".EnsureQueryIsCollectionSharingFriendly<DummySharedCollection>();

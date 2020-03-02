@@ -31,7 +31,7 @@ namespace Cosmonaut.Extensions
 
             if (!hasExistingWhereClause)
             {
-                var whereClause = $"where {identifier}.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{cosmosEntityNameValue}'";
+                var whereClause = $"where {identifier}.{nameof(ISharedCosmosEntity.DbType)} = '{cosmosEntityNameValue}'";
 
                 var hasOrderBy = sql.IndexOf(" order by ", StringComparison.OrdinalIgnoreCase) >= 0;
 
@@ -88,7 +88,7 @@ namespace Cosmonaut.Extensions
             var firstPartQuery = splitQuery[0];
             var secondPartQuery = splitQuery[1];
             var sharedCollectionExpressionQuery =
-                $"{identifier}.{nameof(ISharedCosmosEntity.CosmosEntityName)} = '{cosmosEntityNameValue}'";
+                $"{identifier}.{nameof(ISharedCosmosEntity.DbType)} = '{cosmosEntityNameValue}'";
             return $"{firstPartQuery} where {sharedCollectionExpressionQuery} and {secondPartQuery}";
         }
 

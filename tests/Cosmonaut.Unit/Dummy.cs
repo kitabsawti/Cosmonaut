@@ -68,7 +68,7 @@ namespace Cosmonaut.Unit
     [SharedCosmosCollection("shared", "dummies")]
     public class DummySharedCollection : ISharedCosmosEntity
     {
-        public string CosmosEntityName { get; set; }
+        public string DbType { get; set; }
     }
 
     [SharedCosmosCollection("")]
@@ -79,7 +79,7 @@ namespace Cosmonaut.Unit
 
     public class DummyImplNoAttribute : ISharedCosmosEntity
     {
-        public string CosmosEntityName { get; set; }
+        public string DbType { get; set; }
     }
 
     [SharedCosmosCollection("shared")]

@@ -19,7 +19,7 @@ namespace Cosmonaut.Extensions
                 RemoveDuplicateIds(ref actualDocument);
                 
                 if (typeof(TEntity).UsesSharedCollection())
-                    actualDocument.SetPropertyValue(nameof(ISharedCosmosEntity.CosmosEntityName), $"{typeof(TEntity).GetSharedCollectionEntityName()}");
+                    actualDocument.SetPropertyValue(nameof(ISharedCosmosEntity.DbType), $"{typeof(TEntity).GetSharedCollectionEntityName()}");
 
                 return actualDocument;
             }

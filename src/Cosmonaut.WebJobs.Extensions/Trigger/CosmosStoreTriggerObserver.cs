@@ -51,7 +51,7 @@ namespace Cosmonaut.WebJobs.Extensions.Trigger
 
             var docsToProcess = docs.Where(doc =>
             {
-                var cosmosEntityName = doc.GetPropertyValue<string>(nameof(ISharedCosmosEntity.CosmosEntityName));
+                var cosmosEntityName = doc.GetPropertyValue<string>(nameof(ISharedCosmosEntity.DbType));
                 return !string.IsNullOrEmpty(cosmosEntityName) &&
                        sharedCollectionEntityName.Equals(cosmosEntityName);
             }).ToList();
